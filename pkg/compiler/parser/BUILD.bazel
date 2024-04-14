@@ -7,6 +7,18 @@ antlr(
     language = "Go",
 )
 
+antlr(
+    name = "cppxdr",
+    srcs = ["XDR.g4"],
+    package = "xdr_parser",
+    language = "Cpp",
+    error = True,
+    log = True,
+    listener = True,
+    visitor = True,
+    no_visitor = False,
+)
+
 go_library(
     name = "parser",
     srcs = [

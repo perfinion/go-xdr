@@ -1,0 +1,7 @@
+build:buildbarn --remote_executor=grpc://localhost:8980
+build:buildbarn --remote_instance_name=fuse
+build:buildbarn --remote_default_exec_properties OSFamily=linux
+build:buildbarn --remote_default_exec_properties container-image=docker://ghcr.io/catthehacker/ubuntu:act-22.04@sha256:5f9c35c25db1d51a8ddaae5c0ba8d3c163c5e9a4a6cc97acd409ac7eae239448
+build:buildbarn --remote_timeout=600
+build:buildbarn --jobs=10
+build:buildbarn --noremote_local_fallback

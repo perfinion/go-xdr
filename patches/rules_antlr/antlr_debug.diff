@@ -1,0 +1,70 @@
+diff -ur rules_antlr.orig/src/main/java/org/antlr/bazel/AntlrRules.java rules_antlr.new/src/main/java/org/antlr/bazel/AntlrRules.java
+--- src/main/java/org/antlr/bazel/AntlrRules.java	2024-04-14 06:26:14.417097235 +0000
++++ src/main/java/org/antlr/bazel/AntlrRules.java	2024-04-14 06:41:14.586316082 +0000
+@@ -222,6 +222,11 @@
+ 
+                     for (Path entry : entries)
+                     {
++                        System.out.println("Path entry:" + entry.toString() + " dir? " + entry.toFile().isDirectory());
++                        if (entry.toFile().isDirectory())
++                        {
++                            //continue; // this "fixes" the problem for the fuse worker
++                        }
+                         // for extended grammars ANTLR 2 creates a new grammar file that
+                         // merges the two grammars and must be ignored
+                         if (expanded.matches(entry))
+@@ -236,6 +241,7 @@
+                         if (fileName.endsWith(".log"))
+                         {
+                             Files.move(entry, other.resolve(entry.getFileName()));
++                        System.out.println("Path entry:" + entry.toString() + " moved log");
+ 
+                             continue;
+                         }
+@@ -246,6 +252,7 @@
+                         if (grammar == null)
+                         {
+                             Files.delete(entry);
++                            System.out.println("Path entry:" + entry.toString() + " deleted");
+ 
+                             continue;
+                         }
+@@ -259,6 +266,7 @@
+                             {
+                                 if (cheaders.matches(entry))
+                                 {
++                                    System.out.println("Path entry:" + entry.toString() + " cheaders match");
+                                     if (split)
+                                     {
+                                         Path target = headers.resolve(
+@@ -266,12 +274,14 @@
+                                                 .resolve(entry.getFileName());
+                                         Files.createDirectories(target.getParent());
+                                         Files.move(entry, target);
++                                        System.out.println("Path entry:" + entry.toString() + " cheaders move");
+                                         continue;
+                                     }
+                                 }
+                                 else if (!csources.matches(entry))
+                                 {
+                                     Files.move(entry, other.resolve(entry.getFileName()));
++                                    System.out.println("Path entry:" + entry.toString() + " csources move");
+ 
+                                     continue;
+                                 }
+@@ -284,6 +294,7 @@
+                                 if (!gosources.matches(entry))
+                                 {
+                                     Files.move(entry, other.resolve(entry.getFileName()));
++                                    System.out.println("Path entry:" + entry.toString() + " gosources move");
+ 
+                                     continue;
+                                 }
+@@ -304,6 +315,7 @@
+                         {
+                             Files.createDirectories(target.getParent());
+                             Files.move(entry, target);
++                            System.out.println("Path entry:" + entry.toString() + " move target");
+                         }
+                     }
+                 }
